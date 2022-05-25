@@ -38,11 +38,22 @@ static struct memory_stats stats;
 void initialize_memory() {
     platform_zero_memory(&stats, sizeof(stats));
 }
-    
+
+/**
+* @brief 
+* 
+*/
 void shutdown_memory() {
     // ..
 }
-    
+
+/**
+ * @brief 
+ * 
+ * @param size 
+ * @param tag 
+ * @return void* 
+ */
 void* kallocate(u64 size, memory_tag tag) {
     if (tag == MEMORY_TAG_UNKNOWN) {
         KWARN("kallocate called using MEMORY_TAG_UNKNOWN. Re-class this allocation.")
@@ -57,6 +68,13 @@ void* kallocate(u64 size, memory_tag tag) {
     return block;
 }
 
+/**
+ * @brief 
+ * 
+ * @param block 
+ * @param size 
+ * @param tag 
+ */
 void kfree(void* block, u64 size, memory_tag tag) {
     if (tag == MEMORY_TAG_UNKNOWN) {
         KWARN("kfree called using MEMORY_TAG_UNKNOWN. Re-class this allocation.")
@@ -69,18 +87,45 @@ void kfree(void* block, u64 size, memory_tag tag) {
     platform_free(block, FALSE);
 }
 
+/**
+ * @brief 
+ * 
+ * @param block 
+ * @param size 
+ */
 void kzero_memory(void* block, u64 size) {
     platform_zero_memory(block, size);
 }
 
+/**
+ * @brief 
+ * 
+ * @param dest 
+ * @param source 
+ * @param size 
+ * @return void* 
+ */
 void* kcopy_memory(void* dest, const void* source, u64 size) {
     return platform_copy_memory(dest, source, size);
 }
 
+/**
+ * @brief 
+ * 
+ * @param dest 
+ * @param value 
+ * @param size 
+ * @return void* 
+ */
 void* kset_memory(void* dest, i32 value, i64 size) {
     return platform_set_memory(dest, value, size);
 }
 
+/**
+ * @brief Get the memory usage str object
+ * 
+ * @return char* 
+ */
 char* get_memory_usage_str() {
     const u64 gib = 1024 * 1024 * 1024;
     const u64 mib = 1024 * 1024;

@@ -5,6 +5,7 @@
 
 #include "platform/platform.h"
 #include "core/kmemory.h"
+#include "core/event.h"
 
 typedef struct application_state {
     game* game_inst;
@@ -19,6 +20,12 @@ typedef struct application_state {
 static b8 initialized = FALSE;
 static application_state app_state;
 
+/**
+ * @brief 
+ * 
+ * @param game_inst 
+ * @return b8 
+ */
 b8 application_create(game* game_inst) {
     if (initialized) {
         KERROR("application_create called more than once.");
@@ -39,6 +46,11 @@ b8 application_create(game* game_inst) {
 
     app_state.is_running = TRUE;
     app_state.is_suspended = FALSE;
+
+    if (!event_initialize()) {
+        KERROR("Event system failed initialization. Applicaiton cannot continue.")
+        return FALSE;
+    }
 
     if (!platform_startup(
         &app_state.platform, 
@@ -62,7 +74,11 @@ b8 application_create(game* game_inst) {
     return TRUE;
 }
 
-
+/**
+ * @brief 
+ * 
+ * @return b8 
+ */
 b8 application_run() {
 
     KINFO(get_memory_usage_str());
@@ -88,6 +104,8 @@ b8 application_run() {
     }
 
     app_state.is_running = FALSE;
+
+    event_shutdown();
 
     platform_shutdown(&app_state.platform);
 
