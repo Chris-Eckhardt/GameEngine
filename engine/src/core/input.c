@@ -11,7 +11,7 @@ typedef struct mouse_state
 {
     i16 x;
     i16 y;
-    u8 button[BUTTON_MAX_BUTTONS]
+    u8 buttons[BUTTON_MAX_BUTTONS]
 } mouse_state;
 
 typedef struct input_state {
@@ -47,11 +47,28 @@ void input_update(f64 delta_time) {
 
 
 void input_process_key(keys key, b8 pressed) {
-
     if (state.keybaord_current.keys[key] != pressed) {
-        state.keybaord_current.keys[key] - pressed;
+        state.keybaord_current.keys[key] = pressed;
         event_context context;
-        context.data.u16[0] - key;
+        context.data.u16[0] = key;
         event_fire(pressed ? EVENT_CODE_KEY_PRESSED : EVENT_CODE_KEY_RELEASED, 0, context);
     }
+}
+
+void input_process_button(buttons button, b8 pressed) {
+    if (state.mouse_current.buttons[button] != pressed) {
+        state.mouse_current.buttons[button] = pressed;
+
+        event_context context;
+        context.data.u16[0] = button;
+        event_fire(pressed ? EVENT_CODE_BUTTON_PRESSED : EVENT_CODE_BUTTON_RELEASED, 0, context);
+    }
+}
+
+void input_process_mouse_move(i16 x, i16 y) {
+
+}
+
+void input_process_mouse_wheel(i8 z_delta) {
+
 }
