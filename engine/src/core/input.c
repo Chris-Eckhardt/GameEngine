@@ -11,7 +11,7 @@ typedef struct mouse_state
 {
     i16 x;
     i16 y;
-    u8 buttons[BUTTON_MAX_BUTTONS]
+    u8 buttons[BUTTON_MAX_BUTTONS];
 } mouse_state;
 
 typedef struct input_state {
@@ -22,18 +22,18 @@ typedef struct input_state {
 } input_state;
 
 // internal input state
-static b8 initialized = FALSE;
+static b8 initialized = false;
 static input_state state = {};
 
 void input_initialize() {
     kzero_memory(&state, sizeof(input_state));
-    initialized = TRUE;
+    initialized = true;
     KINFO("Input subsystem initialized.");
 }
 
 void input_shutdown() {
     // TODO: add shutdown routines when needed
-    initialized = FALSE;
+    initialized = false;
 }
 
 void input_update(f64 delta_time) {
@@ -58,7 +58,6 @@ void input_process_key(keys key, b8 pressed) {
 void input_process_button(buttons button, b8 pressed) {
     if (state.mouse_current.buttons[button] != pressed) {
         state.mouse_current.buttons[button] = pressed;
-
         event_context context;
         context.data.u16[0] = button;
         event_fire(pressed ? EVENT_CODE_BUTTON_PRESSED : EVENT_CODE_BUTTON_RELEASED, 0, context);
@@ -66,9 +65,81 @@ void input_process_button(buttons button, b8 pressed) {
 }
 
 void input_process_mouse_move(i16 x, i16 y) {
-
+    if (state.mouse_current.x != x || state.mouse_current.y != y) {
+        KDEBUG("Mouse pos: %i, %i!", x, y);
+        state.mouse_current.x = x;
+        state.mouse_current.y = y;
+        event_context context;
+        context.data.u16[0] = x;
+        context.data.u16[1] = y;
+        event_fire(EVENT_CODE_MOUSE_MOVED, 0, context);
+    }
 }
 
 void input_process_mouse_wheel(i8 z_delta) {
+    event_context context;
+    context.data.u8[0] = z_delta;
+    event_fire(EVENT_CODE_MOUSE_WHEEL, 0, context);
+}
 
+b8 input_is_key_down(keys key) {
+    if (!initialized) {
+        return false;
+    }
+    return state.keybaord_current.keys[key] == true;
+}
+
+b8 input_is_key_up(keys key) {
+    if (!initialized) {
+        return true;
+    }
+    return state.keybaord_current.keys[key] == false;
+}
+
+b8 input_was_key_down(keys key) {
+    if (!initialized) {
+        return false;
+    }
+    return state.keyboard_previous.keys[key] == true;
+}
+
+b8 input_was_key_up(keys key) {
+    if (!initialized) {
+        return true;
+    }
+    return state.keyboard_previous.keys[key] == false;
+}
+
+b8 input_was_button_down(buttons button) {
+    if (!initialized) {
+        return false;
+    }
+    return state.mouse_previous.buttons[button] == true;
+}
+
+b8 input_was_button_up(buttons button) {
+    if (!initialized) {
+        return true;
+    }
+    return state.mouse_previous.buttons[button] == false;
+}
+
+void input_get_mouse_position(i32* x, i32* y) {
+    if (!initialized) {
+        *x = 0;
+        *y = 0;
+        return;
+    }
+    *x = state.mouse_current.x;
+    *y = state.mouse_current.y;
+}
+
+void input_get_previous_mouse_position(i32* x, i32* y) {
+    if (!initialized) {
+        *x = 0;
+        *y = 0;
+        return;
+    }
+    *x = state.mouse_previous.x;
+    *y = state.mouse_previous.y;
 }

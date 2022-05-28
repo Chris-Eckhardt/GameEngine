@@ -15,6 +15,9 @@ typedef struct event_context {
         i16 i16[8];
         u16 u16[8];
 
+        i8 i8[16];
+        u8 u8[16];
+
         char c[16];
     } data;
 } event_context;
