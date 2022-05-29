@@ -47,7 +47,6 @@ b8 renderer_draw_frame(render_packet* packet) {
             KERROR("renderer_end_frame failed. Application shutting down...");
             return false;
         }
-
-        return true;
     }
+    return true;
 }
