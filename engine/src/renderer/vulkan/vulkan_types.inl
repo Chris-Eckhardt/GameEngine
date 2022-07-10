@@ -28,10 +28,24 @@ typedef struct vulkan_device {
     i32 present_queue_index;
     i32 transfer_queue_index;
 
+    VkQueue graphics_queue;
+    VkQueue present_queue;
+    VkQueue transfer_queue;
+
     VkPhysicalDeviceProperties properties;
     VkPhysicalDeviceFeatures features;
     VkPhysicalDeviceMemoryProperties memory;
 } vulkan_device;
+
+
+typedef struct vulkan_swapchain {
+    VkSurfaceFormatKHR image_format;
+    u8 max_frames_in_flight;
+    VkSwapchainKHR handle;
+    u32 image_count;
+    VkImage* images;
+    VkImageView* views;
+} vulkan_swapchain;
 
 typedef struct vulkan_context {
     VkInstance instance;
