@@ -147,6 +147,10 @@ b8 vulkan_renderer_backend_initialize(renderer_backend* backend, const char* app
 
 void vulkan_renderer_backend_shutdown(renderer_backend* backend) {
 
+
+    KDEBUG("Destroying Vulkan swapchain...");
+    vulkan_swapchain_destroy(&context, &context.swapchain);
+
     KDEBUG("Destroying Vulkan device...");
     vulkan_device_destroy(&context);
 

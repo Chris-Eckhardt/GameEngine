@@ -177,7 +177,7 @@ b8 application_run() {
 b8 application_on_event(u16 code, void* sender, void* listener_inst, event_context context) {
     switch (code) {
         case EVENT_CODE_APPLICATION_QUIT: {
-            KINFO("EVENT_CODE_APPLICATION_QUIT recieved, shutting down. \n");
+            KINFO("EVENT_CODE_APPLICATION_QUIT recieved, shutting down.");
             app_state.is_running = false;
             return true;
         }
