@@ -32,7 +32,7 @@ void vulkan_swapchain_destroy(
     destroy(context, swapchain);
 }
 
-b8 vulkan_swapchain_aquire_next_image_index(
+b8 vulkan_swapchain_acquire_next_image_index(
     vulkan_context* context,
     vulkan_swapchain* swapchain,
     u64 timeout_ns,
@@ -215,6 +215,7 @@ void create(vulkan_context* context, u32 width, u32 height, vulkan_swapchain* sw
 
 
 void destroy(vulkan_context* context, vulkan_swapchain* swapchain) {
+    vkDeviceWaitIdle(context->device.logical_device);
     vulkan_image_destroy(context, &swapchain->depth_attachment);
 
     // Only destroy the views, not the images, since those are owned by the swapchain and are thus

@@ -27,7 +27,11 @@ void renderer_shutdown() {
 }
 
 void renderer_on_resized(u16 width, u16 height) {
-    // ..
+    if (backend) {
+        backend->resized(backend, width, height);
+    } else {
+        KWARN("renderer backend does not exist to accept resize: %i %i", width, height);
+    }
 }
 
 b8 renderer_begin_frame(f32 delta_time) {
