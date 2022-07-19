@@ -8,7 +8,7 @@ make.exe all --print-data-base --no-builtin-variables --no-builtin-rules --quest
 # This program built for i386-pc-mingw32
  
 
-# Make data base, printed on Mon Jul 18 21:43:37 2022
+# Make data base, printed on Mon Jul 18 22:01:54 2022
 
 # Variables
 
@@ -44,8 +44,6 @@ PATHEXT = .COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC;.PY;.PYW
 # makefile
 MAKEFILE_LIST := 
 # environment
-FPS_BROWSER_USER_PROFILE_STRING = Default
-# environment
 TMP = C:\Users\ceckh\AppData\Local\Temp
 # environment
 PROGRAMW6432 = C:\Program Files
@@ -54,8 +52,7 @@ PROGRAMDATA = C:\ProgramData
 # environment
 VSCODE_CWD = C:\Users\ceckh\AppData\Local\Programs\Microsoft VS Code
 # environment
-PATH = C:\Program Files (x86)\GnuWin32\bin;C:\VulkanSDK\1.2.198.1\Bin;C:\Python310\Scripts\;C:\Python310\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Program Files\dotnet\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files (x86)\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files\Microsoft SQL Server\150\DTS\Binn\;C:\Program Files (x86)\Microsoft SQL Server\150\DTS\Binn\;C:\Program Files\Azure Data Studio\bin;F:\LLVM\bin;C:\Users\ceckh\AppData\Local\Microsoft\WindowsApps;C:\Users\ceckh\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\ceckh\AppData\Local\Google\Cloud SDK\google-cloud-sdk\bin;C: 
-\Users\ceckh\AppData\Roaming\npm;C:\Users\ceckh\.dotnet\tools;C:\Program Files\Azure Data Studio\bin
+PATH = C:\Program Files (x86)\GnuWin32\bin;C:\VulkanSDK\1.2.198.1\Bin;C:\Python310\Scripts\;C:\Python310\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\Git\cmd;C:\Program Files\nodejs\;C:\ProgramData\chocolatey\bin;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Program Files\dotnet\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files (x86)\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files\Microsoft SQL Server\150\DTS\Binn\;C:\Program Files (x86)\Microsoft SQL Server\150\DTS\Binn\;C:\Program Files\Azure Data Studio\bin;F:\LLVM\bin;C:\Users\ceckh\AppData\Local\Microsoft\WindowsApps;C:\Users\ceckh\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\ceckh\AppData\Local\Google\Cloud SDK\google-cloud-sdk\bin;C:\Users\ceckh\AppData\Roaming\npm;C:\Users\ceckh\.dotnet\tools;C:\Program Files\Azure Data Studio\bin
 # environment
 COMMONPROGRAMW6432 = C:\Program Files\Common Files
 # environment
@@ -73,14 +70,14 @@ NUMBER_OF_PROCESSORS = 6
 # environment
 ELECTRON_RUN_AS_NODE = 1
 # default
-.FEAT 
-URES := target-specific order-only second-expansion else-if archives
+.FEATURES := target-specific order-only second-expansion else 
+-if archives
 # environment
 VK_SDK_PATH = C:\VulkanSDK\1.2.198.1
 # automatic
 %F = $(notdir $%)
 # environment
-CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_4180_VVBHIOJAXKVGRKDL
+CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_6008_LUEZICYGWQIQDUHK
 # environment
 COMPUTERNAME = DESKTOP-CCJSPJI
 # environment
@@ -92,12 +89,12 @@ ORIGINAL_XDG_CURRENT_DESKTOP = undefined
 # environment
 USERNAME = ceckh
 # environment
-PUBLIC = C:\Users 
-\Public
+PUBLIC = C:\Users\Public
 # environment
-VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
+VSCODE_AMD_ENTRYPOINT = vs/workben 
+ch/api/node/extensionHostProcess
 # environment
-VSCODE_CODE_CACHE_PATH = C:\Users\ceckh\AppData\Roaming\Code\CachedData\b06ae3b2d2dbfe28bca3134cc6be65935cdfea6a
+VSCODE_CODE_CACHE_PATH = C:\Users\ceckh\AppData\Roaming\Code\CachedData\3b889b090b5ad5793f524b5d1d39fda662b96a2a
 # environment
 APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = true
 # environment
@@ -130,7 +127,8 @@ PSMODULEPATH = C:\Users\ceckh\Documents\WindowsPowerShell\Modules;C:\Users\ceckh
 MAKE_COMMAND := make.exe
 # environment
 PROCESSOR_ARCHITEW6432 = AMD64
-# default
+# defa 
+ult
 .VARIABLES := 
 # automatic
 *F = $(notdir $*)
@@ -139,7 +137,7 @@ PROCESSOR_IDENTIFIER = Intel64 Family 6 Model 158 Stepping 12, GenuineIntel
 # environment
 OS = Windows_NT
 # environment
-VSCODE_IPC_HOOK = \\.\pipe\e582ac8161b2335f20815a900a076990-1.69.1-main-sock
+VSCODE_IPC_HOOK = \\.\pipe\e582ac8161b2335f20815a900a076990-1.69.2-main-sock
 # environment
 HOMEPATH = \Users\ceckh
 # environment
@@ -149,16 +147,18 @@ PROMPT = $P$G
 # environment
 MFLAGS = -Rrqp
 # automatic
-*D = $(patsub 
-st %/,%,$(dir $*))
+*D = $(patsubst %/,%,$(dir $*))
 # environment
-SYSTEMROOT = C:\WINDOWS
+SYSTEMROOT = C:\WINDOWS 
+
 # automatic
 +D = $(patsubst %/,%,$(dir $+))
 # automatic
 +F = $(notdir $+)
 # environment
 APPDATA = C:\Users\ceckh\AppData\Roaming
+# environment
+__COMPAT_LAYER = DetectorsAppHealth
 # environment
 TEMP = C:\Users\ceckh\AppData\Local\Temp
 # environment
@@ -178,8 +178,8 @@ SYSTEMDRIVE = C:
 # environment
 SESSIONNAME = Console
 # environment
-PROCES 
-SOR_REVISION = 9e0c
+PROCESSOR_RE 
+VISION = 9e0c
 # environment
 MAKELEVEL := 0
 # environment
@@ -189,13 +189,11 @@ LANG = C
 # environment
 PROCESSOR_LEVEL = 6
 # environment
-FPS_BROWSER_APP_PROFILE_STRING = Internet Explorer
-# environment
-VSCODE_PID = 4180
+VSCODE_PID = 6008
 # environment
 USERDOMAIN_ROAMINGPROFILE = DESKTOP-CCJSPJI
 # variable set hash-table stats:
-# Load=88/1024=9%, Rehash=0, Collisions=9/105=9%
+# Load=87/1024=8%, Rehash=0, Collisions=9/104=9%
 
 # Pattern-specific Variable Values
 
@@ -203,43 +201,43 @@ USERDOMAIN_ROAMINGPROFILE = DESKTOP-CCJSPJI
 
 # Directories
 
-# C:\Program Files (x86)\Mi 
-crosoft SQL Server\150\DTS\Binn\ (key C:/Program Files (x86)/Microsoft SQL Server/150/DTS/Binn/, mtime 1645805050): 4 files, no impossibilities.
+# C:\Program Files (x86)\Microsoft SQL Server\150\DTS\Binn\ (key C:/Program Files (x86)/Microsoft  
+SQL Server/150/DTS/Binn/, mtime 1645805050): 4 files, no impossibilities.
 # C:\Program Files\Microsoft SQL Server\150\Tools\Binn\ (key C:/Program Files/Microsoft SQL Server/150/Tools/Binn/, mtime 1645805061): 13 files, no impossibilities.
 # C:\WINDOWS\System32\WindowsPowerShell\v1.0\ (key C:/WINDOWS/System32/WindowsPowerShell/v1.0/, mtime 1616276142): 30 files, no impossibilities.
-# C:\WINDOWS\System32\Wbem (key C:/WINDOWS/System32/Wbem, 
- mtime 1657762730): 153 files, no impossibilities.
-# . (key f:/GameEngine, mtime 1658073557): 17 files, no impossibilities.
+# C:\WINDOWS\System32\Wbem (key C:/WINDOWS/System32/Wbem, mtime 1657762730): 153 files, no impossibilities.
+# . (key f:/GameEngi 
+ne, mtime 1658073557): 17 files, no impossibilities.
 # C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common (key C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common, mtime 1645466864): 10 files, no impossibilities.
 # C:\VulkanSDK\1.2.198.1\Bin (key C:/VulkanSDK/1.2.198.1/Bin, mtime 1644776727): 47 files, no impossibilities.
-# C:\ProgramData\chocolatey\bin (key C:/ProgramData/chocolatey/bin, mtime 1634506683): 13 files, no impossibil 
-ities.
-# C:\Program Files\nodejs\ (key C:/Program Files/nodejs/, mtime 1634506659): 11 files, no impossibilities.
+# C:\ProgramData\chocolatey\bin (key C:/ProgramData/chocolatey/bin, mtime 1634506683): 13 files, no impossibilities.
+# C:\Program Files\nodejs\ (key C:/Program Files/nodejs/, mtime  
+1634506659): 11 files, no impossibilities.
 # C:\Python310\ (key C:/Python310/, mtime 1634506768): 18 files, no impossibilities.
 # C:\Python310\Scripts\ (key C:/Python310/Scripts/, mtime 1634506768): 5 files, no impossibilities.
-# C:\Users\ceckh\AppData\Local\Programs\Microsoft VS Code\bin (key C:/Users/ceckh/AppData/Local/Programs/Microsoft VS Code/bin, mtime 1657745569): 4 files, no impossibilities.
-# C:\WINDOWS\System32\OpenSSH\: could 
- not be stat'd.
-# C:\Users\ceckh\AppData\Roaming\npm (key C:/Users/ceckh/AppData/Roaming/npm, mtime 1634506650): 2 files, no impossibilities.
+# C:\Users\ceckh\AppData\Local\Programs\Microsoft VS Code\bin (key C:/Users/ceckh/AppData/Local/Programs/Microsoft VS Code/bin, mtime 1658180787): 4 files, no impossibilities.
+# C:\WINDOWS\System32\OpenSSH\: could not be stat'd.
+# C:\Users\ceckh\AppData\Roaming\npm (key C:/Users/ceck 
+h/AppData/Roaming/npm, mtime 1634506650): 2 files, no impossibilities.
 # C:\Users\ceckh\.dotnet\tools: could not be stat'd.
 # C:\Program Files\Microsoft SQL Server\130\Tools\Binn\ (key C:/Program Files/Microsoft SQL Server/130/Tools/Binn/, mtime 1635633913): 4 files, no impossibilities.
 # C:\WINDOWS (key C:/WINDOWS, mtime 1657762729): 110 files, no impossibilities.
-# C:\Program Files (x86)\Microsoft SQL Server\150\Tools\Binn\ (key C:/Pro 
-gram Files (x86)/Microsoft SQL Server/150/Tools/Binn/, mtime 1645805061): 11 files, no impossibilities.
+# C:\Program Files (x86)\Microsoft SQL Server\150\Tools\Binn\ (key C:/Program Files (x86)/Microsoft SQL Server/150/Tools/Binn/, mtime 1645805061 
+): 11 files, no impossibilities.
 # C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\ (key C:/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn/, mtime 1645805061): 7 files, no impossibilities.
 # C:\Program Files\Azure Data Studio\bin (key C:/Program Files/Azure Data Studio/bin, mtime 1645805442): 4 files, no impossibilities.
-# C:\Program Files\Microsoft SQL Server\150\DTS\Binn\ (key C:/Program Files/Mi 
-crosoft SQL Server/150/DTS/Binn/, mtime 1645805080): 46 files, no impossibilities.
+# C:\Program Files\Microsoft SQL Server\150\DTS\Binn\ (key C:/Program Files/Microsoft SQL Server/150/DTS/Binn/, mtime 1645805080): 46 files, no impos 
+sibilities.
 # C:\Program Files\dotnet\ (key C:/Program Files/dotnet/, mtime 1645481524): 10 files, no impossibilities.
 # C:\Users\ceckh\AppData\Local\Microsoft\WindowsApps (key C:/Users/ceckh/AppData/Local/Microsoft/WindowsApps, mtime 1657835029): 28 files, no impossibilities.
 # C:\Program Files\Git\cmd (key C:/Program Files/Git/cmd, mtime 1615670838): 8 files, no impossibilities.
-# C:\WINDOWS\system32 (key C:/WINDOWS/system32, mtime 165 
-7988949): 3026 files, no impossibilities.
-# F:\LLVM\bin (key F:/LLVM/bin, mtime 1652629105): 109 files, no impossibilities.
+# C:\WINDOWS\system32 (key C:/WINDOWS/system32, mtime 1657988949): 3026 files, no impossibilities.
+# F:\LLVM\bin (key F:/LLVM/bi 
+n, mtime 1652629105): 109 files, no impossibilities.
 # C:\Users\ceckh\AppData\Local\Google\Cloud SDK\google-cloud-sdk\bin (key C:/Users/ceckh/AppData/Local/Google/Cloud SDK/google-cloud-sdk/bin, mtime 1611800629): 21 files, no impossibilities.
 # C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR (key C:/Program Files/NVIDIA Corporation/NVIDIA NvDLISR, mtime 1645466947): 5 files, no impossibilities.
-# C:\Program Files (x86)\GnuWin32\bin ( 
-key C:/Program Files (x86)/GnuWin32/bin, mtime 1657988321): 5 files, no impossibilities.
+# C:\Program Files (x86)\GnuWin32\bin (key C:/Program Files (x86)/GnuWin32/bin, mtime 1657988321): 5 files, no 
+ impossibilities.
 
 # 3721 files, no impossibilities in 29 directories.
 
@@ -261,13 +259,13 @@ all:
 # Not a target:
 .DEFAULT:
 #  Implicit rule search has not been done.
-#  Modification time never checked. 
-
+#  Modification time never checked.
 #  File has not been updated.
 
 # Not a target:
 makefile:
-#  A default, MAKEFILES, or -include/sinclude makefile.
+#  A default, 
+ MAKEFILES, or -include/sinclude makefile.
 #  Implicit rule search has been done.
 #  File does not exist.
 #  File has been updated.
@@ -283,10 +281,10 @@ makefile:
 
 # Not a target:
 GNUmakefile:
-#  A default, MAKEFILES, or -include/sin 
-clude makefile.
+#  A default, MAKEFILES, or -include/sinclude makefile.
 #  Implicit rule search has been done.
-#  File does not exist.
+#  File does not 
+ exist.
 #  File has been updated.
 #  Failed to be updated.
 # variable set hash-table stats:
@@ -303,11 +301,11 @@ clude makefile.
 # # of strings in strcache: 0
 # # of strcache buffers: 0
 # strcache size: total = 0 / max = 0 / min = 4096 / avg = 0
-# strcache free: t 
+# strcache free: total = 0 / max = 0 / min = 4096 / avg = 0
+
+# Finished Make data base on 
 make.exe: *** No rule to make target `all'.  Stop.
 
-otal = 0 / max = 0 / min = 4096 / avg = 0
-
-# Finished Make data base on Mon Jul 18 21:43:37 2022
+ Mon Jul 18 22:01:54 2022
 
  

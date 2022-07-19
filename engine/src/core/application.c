@@ -165,6 +165,7 @@ b8 application_run() {
     event_unregister(EVENT_CODE_APPLICATION_QUIT, 0, application_on_event);
     event_unregister(EVENT_CODE_KEY_PRESSED, 0, application_on_key);
     event_unregister(EVENT_CODE_KEY_RELEASED, 0, application_on_key);
+    event_unregister(EVENT_CODE_MOUSE_MOVED, 0, application_on_mouse_moved);
 
     event_shutdown();
     input_shutdown();
@@ -245,4 +246,4 @@ b8 application_on_resized(u16 code, void* sender, void* listener_inst, event_con
 
     // Event purposely not handled to allow other listeners to get this.
     return false;
-} 
+}
