@@ -11,6 +11,7 @@
 
 #include <windows.h>
 #include <windowsx.h>  // param input extraction
+#include <Xinput.h> // for Gamepad
 #include <stdlib.h>
 
 // For surface creation
@@ -18,10 +19,13 @@
 #include <vulkan/vulkan_win32.h>
 #include "renderer/vulkan/vulkan_types.inl"
 
+#pragma comment(lib, "XInput.lib") 
+
 typedef struct internal_state {
     HINSTANCE h_instance;
     HWND hwnd;
     VkSurfaceKHR surface;
+    b8 gamepads[XUSER_MAX_COUNT]; // x4
 } internal_state;
 
 // Clock
@@ -29,6 +33,8 @@ static f64 clock_frequency;
 static LARGE_INTEGER start_time;
 
 LRESULT CALLBACK win32_process_message(HWND hwnd, u32 msg, WPARAM w_param, LPARAM l_param);
+
+void platform_process_gamepad_input(XINPUT_STATE* state);
 
 b8 platform_startup(
     platform_state *plat_state,
@@ -118,6 +124,27 @@ b8 platform_startup(
     clock_frequency = 1.0 / (f64)frequency.QuadPart;
     QueryPerformanceCounter(&start_time);
 
+    // query for connected gamepads
+    XInputEnable(true);
+
+    i64 dwResult;    
+    for (i16 i = 0; i < XUSER_MAX_COUNT; i++ )
+    {
+        XINPUT_STATE xiState;
+        ZeroMemory(&xiState, sizeof(XINPUT_STATE));
+
+        // set to not connected by default
+        state->gamepads[i] = false;
+
+        dwResult = XInputGetState(i, &xiState);
+
+        if( dwResult == ERROR_SUCCESS )
+        {
+            state->gamepads[i] = true;
+            KINFO("Gamepad connected at index %i", i);
+        }
+    }
+
     return true;
 }
 
@@ -132,10 +159,34 @@ void platform_shutdown(platform_state *plat_state) {
 }
 
 b8 platform_pump_messages(platform_state *plat_state) {
+    internal_state *state = (internal_state *)plat_state->internal_state;
     MSG message;
     while (PeekMessageA(&message, NULL, 0, 0, PM_REMOVE)) {
         TranslateMessage(&message);
         DispatchMessageA(&message);
+    }
+
+    // .. handle gamepad connection and state change
+    i64 dwResult;    
+    for (i16 i = 0; i < XUSER_MAX_COUNT; i++ )
+    {
+        XINPUT_STATE xiState;
+        ZeroMemory(&xiState, sizeof(XINPUT_STATE));
+        dwResult = XInputGetState(i, &xiState);
+
+        if(dwResult == ERROR_SUCCESS) {
+            if (!state->gamepads[i]) {
+                state->gamepads[i] = true;
+                KINFO("New gamepad detected at index %i", i);
+            }
+            // process input
+            platform_process_gamepad_input(&xiState);
+        } else {
+            if (state->gamepads[i]) {
+                state->gamepads[i] = false;
+                KINFO("Connection to gamepad at index %i has been lost!", i);
+            }
+        }
     }
 
     return true;
@@ -299,6 +350,135 @@ LRESULT CALLBACK win32_process_message(HWND hwnd, u32 msg, WPARAM w_param, LPARA
     }
 
     return DefWindowProcA(hwnd, msg, w_param, l_param);
+}
+
+void platform_process_gamepad_input(XINPUT_STATE* state) {
+    i16 leftStickX = state->Gamepad.sThumbLX;
+    i16 leftStickY = state->Gamepad.sThumbLY;
+    i16 rightStickX = state->Gamepad.sThumbRX;
+    i16 rightStickY = state->Gamepad.sThumbRY;
+    
+    // .. left stick
+    if (leftStickX > XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE 
+    || leftStickY > XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE
+    || leftStickX < -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE
+    || leftStickY < -XINPUT_GAMEPAD_LEFT_THUMB_DEADZONE) {
+        input_process_gamepad_left_stick_move(leftStickX, leftStickY);
+    } else{
+        input_process_gamepad_left_stick_move(0, 0);
+    }
+
+    // .. right stick
+    if (rightStickX > XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE 
+    || rightStickY > XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE
+    || rightStickX < -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE
+    || rightStickY < -XINPUT_GAMEPAD_RIGHT_THUMB_DEADZONE) {
+        input_process_gamepad_right_stick_move(rightStickX, rightStickY);
+    } else {
+        input_process_gamepad_right_stick_move(0, 0);
+    }
+
+    // .. Right & Left Triggers
+    input_process_gamepad_trigger_left(state->Gamepad.bLeftTrigger);
+    input_process_gamepad_trigger_right(state->Gamepad.bRightTrigger);
+
+    // .. A
+    if (state->Gamepad.wButtons & XINPUT_GAMEPAD_A) {
+        input_process_gamepad_button(GAMEPAD_A, true);
+    } else {
+        input_process_gamepad_button(GAMEPAD_A, false);
+    }
+
+    // .. B
+    if (state->Gamepad.wButtons & XINPUT_GAMEPAD_B) {
+        input_process_gamepad_button(GAMEPAD_B, true);
+    } else {
+        input_process_gamepad_button(GAMEPAD_B, false);
+    }
+
+    // .. X
+    if (state->Gamepad.wButtons & XINPUT_GAMEPAD_X) {
+        input_process_gamepad_button(GAMEPAD_X, true);
+    } else {
+        input_process_gamepad_button(GAMEPAD_X, false);
+    }
+
+    // .. Y
+    if (state->Gamepad.wButtons & XINPUT_GAMEPAD_Y) {
+        input_process_gamepad_button(GAMEPAD_Y, true);
+    } else {
+        input_process_gamepad_button(GAMEPAD_Y, false);
+    }
+
+    // .. Left Sholder
+    if (state->Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_SHOULDER) {
+        input_process_gamepad_button(GAMEPAD_LEFT_SHOLDER, true);
+    } else {
+        input_process_gamepad_button(GAMEPAD_LEFT_SHOLDER, false);
+    }
+
+    // .. Right Sholder
+    if (state->Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER) {
+        input_process_gamepad_button(GAMEPAD_RIGHT_SHOLDER, true);
+    } else {
+        input_process_gamepad_button(GAMEPAD_RIGHT_SHOLDER, false);
+    }
+
+    // .. Left Stick Press
+    if (state->Gamepad.wButtons & XINPUT_GAMEPAD_LEFT_THUMB) {
+        input_process_gamepad_button(GAMEPAD_LEFT_STICK_PRESS, true);
+    } else {
+        input_process_gamepad_button(GAMEPAD_LEFT_STICK_PRESS, false);
+    }
+
+    // .. Right Stick Press
+    if (state->Gamepad.wButtons & XINPUT_GAMEPAD_RIGHT_THUMB) {
+        input_process_gamepad_button(GAMEPAD_RIGHT_STICK_PRESS, true);
+    } else {
+        input_process_gamepad_button(GAMEPAD_RIGHT_STICK_PRESS, false);
+    }
+
+    // .. DPAD Up
+    if (state->Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_UP) {
+        input_process_gamepad_button(GAMEPAD_DPAD_UP, true);
+    } else {
+        input_process_gamepad_button(GAMEPAD_DPAD_UP, false);
+    }
+
+    // .. DPAD Down
+    if (state->Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_DOWN) {
+        input_process_gamepad_button(GAMEPAD_DPAD_DOWN, true);
+    } else {
+        input_process_gamepad_button(GAMEPAD_DPAD_DOWN, false);
+    }
+
+    // .. DPAD Left
+    if (state->Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_LEFT) {
+        input_process_gamepad_button(GAMEPAD_DPAD_LEFT, true);
+    } else {
+        input_process_gamepad_button(GAMEPAD_DPAD_LEFT, false);
+    }
+
+    // .. DPAD Right
+    if (state->Gamepad.wButtons & XINPUT_GAMEPAD_DPAD_RIGHT) {
+        input_process_gamepad_button(GAMEPAD_DPAD_RIGHT, true);
+    } else {
+        input_process_gamepad_button(GAMEPAD_DPAD_RIGHT, false);
+    }
+
+    // .. Start
+    if (state->Gamepad.wButtons & XINPUT_GAMEPAD_START) {
+        input_process_gamepad_button(GAMEPAD_START, true);
+    } else {
+        input_process_gamepad_button(GAMEPAD_START, false);
+    }
+
+    // .. Back
+    if (state->Gamepad.wButtons & XINPUT_GAMEPAD_BACK) {
+        input_process_gamepad_button(GAMEPAD_BACK, true);
+    } else {
+        input_process_gamepad_button(GAMEPAD_BACK, false);
+    }
 }
 
 #endif  // KPLATFORM_WINDOWS

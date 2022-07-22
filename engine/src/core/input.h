@@ -142,6 +142,25 @@ typedef enum keys {
     KEYS_MAX_KEYS
 } keys;
 
+#define DEFINE_GAMEPAD(name, code) GAMEPAD_##name = code
+
+typedef enum gamepad_buttons {
+    DEFINE_GAMEPAD(DPAD_UP, 0x01),
+    DEFINE_GAMEPAD(DPAD_DOWN, 0x02),
+    DEFINE_GAMEPAD(DPAD_LEFT, 0x03),
+    DEFINE_GAMEPAD(DPAD_RIGHT, 0x04),
+    DEFINE_GAMEPAD(START, 0x05),
+    DEFINE_GAMEPAD(BACK, 0x06),
+    DEFINE_GAMEPAD(LEFT_STICK_PRESS, 0x07),
+    DEFINE_GAMEPAD(RIGHT_STICK_PRESS, 0x08),
+    DEFINE_GAMEPAD(LEFT_SHOLDER, 0x09),
+    DEFINE_GAMEPAD(RIGHT_SHOLDER, 0x0A),
+    DEFINE_GAMEPAD(A, 0x0B),
+    DEFINE_GAMEPAD(B, 0x0C),
+    DEFINE_GAMEPAD(X, 0x0D),
+    DEFINE_GAMEPAD(Y, 0x0E)
+} gamepad_buttons;
+
 void input_initialize();
 void input_shutdown();
 void input_update(f64 delta_time);
@@ -165,3 +184,18 @@ KAPI void input_get_previous_mouse_position(i32* x, i32* y);
 void input_process_button(buttons button, b8 pressed);
 void input_process_mouse_move(i16 x, i16 y);
 void input_process_mouse_wheel(i8 z_delta);
+
+KAPI b8 input_is_gamepad_button_down(gamepad_buttons button);
+KAPI b8 input_is_gamepad_button_up(gamepad_buttons button);
+KAPI b8 input_was_gamepad_button_down(gamepad_buttons button);
+KAPI b8 input_was_gamepad_button_up(gamepad_buttons button);
+KAPI void input_get_gamepad_left_stick_position(i16* x, i16* y);
+KAPI void input_get_previous_gamepad_left_stick_position(i16* x, i16* y);
+KAPI void input_get_gamepad_right_stick_position(i16* x, i16* y);
+KAPI void input_get_previous_gamepad_right_stick_position(i16* x, i16* y);
+
+void input_process_gamepad_left_stick_move(i16 x, i16 y);
+void input_process_gamepad_right_stick_move(i16 x, i16 y);
+void input_process_gamepad_button(gamepad_buttons button, b8 pressed);
+void input_process_gamepad_trigger_right(u8 triggerValue);
+void input_process_gamepad_trigger_left(u8 value);

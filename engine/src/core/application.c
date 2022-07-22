@@ -29,6 +29,7 @@ static application_state app_state;
 b8 application_on_event(u16 code, void* sender, void* listener_inst, event_context context);
 b8 application_on_key(u16 code, void* sender, void* listener_inst, event_context context);
 b8 application_on_resized(u16 code, void* sender, void* listener_inst, event_context context);
+b8 application_on_mouse_moved(u16 code, void* sender, void* listener_inst, event_context context);
 
 /**
  * @brief 
@@ -165,8 +166,8 @@ b8 application_run() {
     event_unregister(EVENT_CODE_APPLICATION_QUIT, 0, application_on_event);
     event_unregister(EVENT_CODE_KEY_PRESSED, 0, application_on_key);
     event_unregister(EVENT_CODE_KEY_RELEASED, 0, application_on_key);
-    event_unregister(EVENT_CODE_MOUSE_MOVED, 0, application_on_mouse_moved);
-
+    event_unregister(EVENT_CODE_RESIZED, 0, application_on_resized);
+    
     event_shutdown();
     input_shutdown();
 
