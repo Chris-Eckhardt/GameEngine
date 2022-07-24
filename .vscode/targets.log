@@ -8,7 +8,7 @@ make.exe all --print-data-base --no-builtin-variables --no-builtin-rules --quest
 # This program built for i386-pc-mingw32
  
 
-# Make data base, printed on Fri Jul 22 10:58:44 2022
+# Make data base, printed on Sun Jul 24 18:41:27 2022
 
 # Variables
 
@@ -35,8 +35,7 @@ SHELL := sh.exe
 # environment
 WINDIR = C:\WINDOWS
 # environment
-VSCODE_NLS_CONFIG = {"locale":"en-us","av 
-ailableLanguages":{},"_languagePackSupport":true}
+VSCODE_NLS_CONFIG = {"locale":"en-us","availableLanguages":{},"_languagePackSupport":true}
 # environment
 ONEDRIVE = C:\Users\ceckh\OneDrive
 # environment
@@ -79,7 +78,7 @@ VK_SDK_PATH = C:\VulkanSDK\1.2.198.1
 # automatic
 %F = $(notdir $%)
 # environment
-CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_5552_WJQPNEBQCNUGOPLM
+CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_1684_ZCDXYUTLTCEURQGY
 # environment
 COMPUTERNAME = DESKTOP-CCJSPJI
 # environment
@@ -91,8 +90,7 @@ ORIGINAL_XDG_CURRENT_DESKTOP = undefined
 # environment
 USERNAME = ceckh
 # environment
-PUBLIC = C:\Users 
-\Public
+PUBLIC = C:\Users\Public
 # environment
 VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
 # environment
@@ -192,7 +190,7 @@ PROCESSOR_LEVEL = 6
 # environment
 FPS_BROWSER_APP_PROFILE_STRING = Internet Explorer
 # environment
-VSCODE_PID = 5552
+VSCODE_PID = 1684
 # environment
 USERDOMAIN_ROAMINGPROFILE = DESKTOP-CCJSPJI
 # variable set hash-table stats:
@@ -210,7 +208,7 @@ crosoft SQL Server\150\DTS\Binn\ (key C:/Program Files (x86)/Microsoft SQL Serve
 # C:\WINDOWS\System32\WindowsPowerShell\v1.0\ (key C:/WINDOWS/System32/WindowsPowerShell/v1.0/, mtime 1616276142): 30 files, no impossibilities.
 # C:\WINDOWS\System32\Wbem (key C:/WINDOWS/System32/Wbem, 
  mtime 1657762730): 153 files, no impossibilities.
-# . (key f:/GameEngine, mtime 1658073557): 17 files, no impossibilities.
+# . (key f:/GameEngine, mtime 1658694188): 25 files, no impossibilities.
 # C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common (key C:/Program Files (x86)/NVIDIA Corporation/PhysX/Common, mtime 1645466864): 10 files, no impossibilities.
 # C:\VulkanSDK\1.2.198.1\Bin (key C:/VulkanSDK/1.2.198.1/Bin, mtime 1644776727): 47 files, no impossibilities.
 # C:\ProgramData\chocolatey\bin (key C:/ProgramData/chocolatey/bin, mtime 1634506683): 13 files, no impossibil 
@@ -235,14 +233,14 @@ crosoft SQL Server/150/DTS/Binn/, mtime 1645805080): 46 files, no impossibilitie
 # C:\Users\ceckh\AppData\Local\Microsoft\WindowsApps (key C:/Users/ceckh/AppData/Local/Microsoft/WindowsApps, mtime 1658448768): 28 files, no impossibilities.
 # C:\Program Files\Git\cmd (key C:/Program Files/Git/cmd, mtime 1615670838): 8 files, no impossibilities.
 # C:\WINDOWS\system32 (key C:/WINDOWS/system32, mtime 165 
-7988949): 3026 files, no impossibilities.
+8589388): 3026 files, no impossibilities.
 # F:\LLVM\bin (key F:/LLVM/bin, mtime 1652629105): 109 files, no impossibilities.
 # C:\Users\ceckh\AppData\Local\Google\Cloud SDK\google-cloud-sdk\bin (key C:/Users/ceckh/AppData/Local/Google/Cloud SDK/google-cloud-sdk/bin, mtime 1611800629): 21 files, no impossibilities.
 # C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR (key C:/Program Files/NVIDIA Corporation/NVIDIA NvDLISR, mtime 1645466947): 5 files, no impossibilities.
 # C:\Program Files (x86)\GnuWin32\bin ( 
 key C:/Program Files (x86)/GnuWin32/bin, mtime 1657988321): 5 files, no impossibilities.
 
-# 3721 files, no impossibilities in 29 directories.
+# 3729 files, no impossibilities in 29 directories.
 
 # Implicit Rules
 
@@ -309,6 +307,6 @@ make.exe: *** No rule to make target `all'.  Stop.
 
 otal = 0 / max = 0 / min = 4096 / avg = 0
 
-# Finished Make data base on Fri Jul 22 10:58:44 2022
+# Finished Make data base on Sun Jul 24 18:41:27 2022
 
  

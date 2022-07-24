@@ -17,5 +17,7 @@ b8 create_game(game* out_game) {
 
     out_game->state = kallocate(sizeof(game_state), MEMORY_TAG_GAME);
 
+    out_game->application_state = 0;
+
     return true;
 }

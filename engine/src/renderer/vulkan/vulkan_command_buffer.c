@@ -1,12 +1,15 @@
 #include "vulkan_command_buffer.h"
 
 #include "core/kmemory.h"
+#include "core/logger.h"
 
 void vulkan_command_buffer_allocate(
     vulkan_context* context,
     VkCommandPool pool,
     b8 is_primary,
     vulkan_command_buffer* out_command_buffer) {
+
+    kzero_memory(out_command_buffer, sizeof(out_command_buffer));
 
     VkCommandBufferAllocateInfo allocate_info = {VK_STRUCTURE_TYPE_COMMAND_BUFFER_ALLOCATE_INFO};
     allocate_info.commandPool = pool;
@@ -26,7 +29,6 @@ void vulkan_command_buffer_free(
     vulkan_context* context,
     VkCommandPool pool,
     vulkan_command_buffer* command_buffer) {
-
     vkFreeCommandBuffers(
         context->device.logical_device,
         pool,
@@ -42,7 +44,7 @@ void vulkan_command_buffer_begin(
     b8 is_single_use,
     b8 is_renderpass_continue,
     b8 is_simultaneous_use) {
-
+    
     VkCommandBufferBeginInfo begin_info = {VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO};
     begin_info.flags = 0;
     if (is_single_use) {
@@ -72,8 +74,6 @@ void vulkan_command_buffer_reset(vulkan_command_buffer* command_buffer) {
     command_buffer->state = COMMAND_BUFFER_STATE_READY;
 }
 
-
-
 void vulkan_command_buffer_allocate_and_begin_single_use(
     vulkan_context* context,
     VkCommandPool pool,
@@ -102,4 +102,4 @@ void vulkan_command_buffer_end_single_use(
 
     // Free the command buffer.
     vulkan_command_buffer_free(context, pool, command_buffer);
- } 
+ }

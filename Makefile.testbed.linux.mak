@@ -1,33 +1,33 @@
-
+DIR := $(subst /,\,${CURDIR})
 BUILD_DIR := bin
 OBJ_DIR := obj
 
 ASSEMBLY := testbed
-EXTENSION := 
-COMPILER_FLAGS := -g -fdeclspec -fPIC
-INCLUDE_FLAGS := -Iengine/src -I$(VULKAN_SDK)\include
-LINKER_FLAGS := -L./$(BUILD_DIR)/ -lengine -Wl,-rpath,.
+EXTENSION := .exe
+COMPILER_FLAGS := -g -MD -Werror=vla -Wno-missing-braces -fdeclspec #-fPIC
+INCLUDE_FLAGS := -Iengine\src -Itestbed\src 
+LINKER_FLAGS := -g -lengine.lib -L$(OBJ_DIR)\engine -L$(BUILD_DIR) #-Wl,-rpath,.
 DEFINES := -D_DEBUG -DKIMPORT
 
 # Make does not offer a recursive wildcard function, so here's one:
-#rwildcard=$(wildcard $1$2) $(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2))
+rwildcard=$(wildcard $1$2) $(foreach d,$(wildcard $1*),$(call rwildcard,$d/,$2))
 
-SRC_FILES := $(shell find $(ASSEMBLY) -name *.c)		# .c files
-DIRECTORIES := $(shell find $(ASSEMBLY) -type d)		# directories with .h files
-OBJ_FILES := $(SRC_FILES:%=$(OBJ_DIR)/%.o)		# compiled .o objects
+SRC_FILES := $(call rwildcard,$(ASSEMBLY)/,*.c) # Get all .c files
+DIRECTORIES := \$(ASSEMBLY)\src $(subst $(DIR),,$(shell dir $(ASSEMBLY)\src /S /AD /B | findstr /i src)) # Get all directories under src.
+OBJ_FILES := $(SRC_FILES:%=$(OBJ_DIR)/%.o) # Get all compiled .c.o objects for tesbed
 
 all: scaffold compile link
 
 .PHONY: scaffold
 scaffold: # create build directory
 	@echo Scaffolding folder structure...
-	@mkdir -p $(addprefix $(OBJ_DIR)/,$(DIRECTORIES))
+	-@setlocal enableextensions enabledelayedexpansion && mkdir $(addprefix $(OBJ_DIR), $(DIRECTORIES)) 2>NUL || cd .
 	@echo Done.
 
 .PHONY: link
 link: scaffold $(OBJ_FILES) # link
 	@echo Linking $(ASSEMBLY)...
-	clang $(OBJ_FILES) -o $(BUILD_DIR)/$(ASSEMBLY)$(EXTENSION) $(LINKER_FLAGS)
+	@clang $(OBJ_FILES) -o $(BUILD_DIR)/$(ASSEMBLY)$(EXTENSION) $(LINKER_FLAGS)
 
 .PHONY: compile
 compile: #compile .c files
@@ -35,9 +35,11 @@ compile: #compile .c files
 
 .PHONY: clean
 clean: # clean build directory
-	rm -rf $(BUILD_DIR)\$(ASSEMBLY)
-	rm -rf $(OBJ_DIR)\$(ASSEMBLY)
+	if exist $(BUILD_DIR)\$(ASSEMBLY)$(EXTENSION) del $(BUILD_DIR)\$(ASSEMBLY)$(EXTENSION)
+	rmdir /s /q $(OBJ_DIR)\$(ASSEMBLY)
 
-$(OBJ_DIR)/%.c.o: %.c # compile .c to .o object
+$(OBJ_DIR)/%.c.o: %.c # compile .c to .c.o object
 	@echo   $<...
 	@clang $< $(COMPILER_FLAGS) -c -o $@ $(DEFINES) $(INCLUDE_FLAGS)
+
+-include $(OBJ_FILES:.o=.d)

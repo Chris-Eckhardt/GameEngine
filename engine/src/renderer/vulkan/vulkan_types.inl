@@ -5,12 +5,11 @@
 
 #include <vulkan/vulkan.h>
 
-
-#define VK_CHECK(expr) \
-    { \
+// Checks the given expression's return value against VK_SUCCESS.
+#define VK_CHECK(expr)               \
+    {                                \
         KASSERT(expr == VK_SUCCESS); \
     }
-
 
 typedef struct vulkan_swapchain_support_info {
     VkSurfaceCapabilitiesKHR capabilities;
@@ -49,14 +48,14 @@ typedef struct vulkan_image {
     u32 height;
 } vulkan_image;
 
-typedef enum vulkan_renderpass_state {
+typedef enum vulkan_render_pass_state {
     READY,
     RECORDING,
     IN_RENDER_PASS,
     RECORDING_ENDED,
     SUBMITTED,
     NOT_ALLOCATED
-} vulkan_renderpass_state;
+} vulkan_render_pass_state;
 
 typedef struct vulkan_renderpass {
     VkRenderPass handle;
@@ -66,7 +65,7 @@ typedef struct vulkan_renderpass {
     f32 depth;
     u32 stencil;
 
-    vulkan_renderpass_state state;
+    vulkan_render_pass_state state;
 } vulkan_renderpass;
 
 typedef struct vulkan_framebuffer {
@@ -76,7 +75,6 @@ typedef struct vulkan_framebuffer {
     vulkan_renderpass* renderpass;
 } vulkan_framebuffer;
 
-
 typedef struct vulkan_swapchain {
     VkSurfaceFormatKHR image_format;
     u8 max_frames_in_flight;
@@ -84,9 +82,10 @@ typedef struct vulkan_swapchain {
     u32 image_count;
     VkImage* images;
     VkImageView* views;
-    
+
     vulkan_image depth_attachment;
 
+    // framebuffers used for on-screen rendering.
     vulkan_framebuffer* framebuffers;
 } vulkan_swapchain;
 
@@ -106,18 +105,46 @@ typedef struct vulkan_command_buffer {
     vulkan_command_buffer_state state;
 } vulkan_command_buffer;
 
-
 typedef struct vulkan_fence {
     VkFence handle;
     b8 is_signaled;
 } vulkan_fence;
 
+typedef struct vulkan_shader_stage {
+    VkShaderModuleCreateInfo create_info;
+    VkShaderModule handle;
+    VkPipelineShaderStageCreateInfo shader_stage_create_info;
+} vulkan_shader_stage;
+
+typedef struct vulkan_pipeline {
+    VkPipeline handle;
+    VkPipelineLayout pipeline_layout;
+} vulkan_pipeline;
+
+#define OBJECT_SHADER_STAGE_COUNT 2
+typedef struct vulkan_object_shader {
+    // vertex, fragment
+    vulkan_shader_stage stages[OBJECT_SHADER_STAGE_COUNT];
+
+    vulkan_pipeline pipeline;
+
+
+} vulkan_object_shader;
+
 typedef struct vulkan_context {
+
+    // The framebuffer's current width.
     u32 framebuffer_width;
+
+    // The framebuffer's current height.
     u32 framebuffer_height;
 
+    // Current generation of framebuffer size. If it does not match framebuffer_size_last_generation,
+    // a new one should be generated.
     u64 framebuffer_size_generation;
 
+    // The generation of the framebuffer when it was last created. Set to framebuffer_size_generation
+    // when updated.
     u64 framebuffer_size_last_generation;
 
     VkInstance instance;
@@ -145,7 +172,7 @@ typedef struct vulkan_context {
     u32 in_flight_fence_count;
     vulkan_fence* in_flight_fences;
 
-    // holds pointers to fences which exist and are owned elsewhere
+    // Holds pointers to fences which exist and are owned elsewhere.
     vulkan_fence** images_in_flight;
 
     u32 image_index;
@@ -153,5 +180,8 @@ typedef struct vulkan_context {
 
     b8 recreating_swapchain;
 
+    vulkan_object_shader object_shader;
+
     i32 (*find_memory_index)(u32 type_filter, u32 property_flags);
+
 } vulkan_context;

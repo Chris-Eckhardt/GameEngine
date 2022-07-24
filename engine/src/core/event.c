@@ -1,8 +1,7 @@
-#include "event.h"
+#include "core/event.h"
 
 #include "core/kmemory.h"
 #include "containers/darray.h"
-
 
 typedef struct registered_event {
     void* listener;
@@ -13,132 +12,113 @@ typedef struct event_code_entry {
     registered_event* events;
 } event_code_entry;
 
-#define MAX_MESSAGE_CODES 16384;
+// This should be more than enough codes...
+#define MAX_MESSAGE_CODES 16384
 
+// State structure.
 typedef struct event_system_state {
-    event_code_entry registered[MAX_EVENT_CODE];
+    // Lookup table for event codes.
+    event_code_entry registered[MAX_MESSAGE_CODES];
 } event_system_state;
 
-static b8 is_initialied = false;
-static event_system_state state;
-
 /**
- * @brief 
- * 
- * @return b8 
+ * Event system internal state_ptr->
  */
-b8 event_initialize() {
-    if (is_initialied == true) {
-        return false;
+static event_system_state* state_ptr;
+
+void event_system_initialize(u64* memory_requirement, void* state) {
+    *memory_requirement = sizeof(event_system_state);
+    if (state == 0) {
+        return;
     }
-    is_initialied = false;
-    kzero_memory(&state, sizeof(state));
-    is_initialied = true;
-    return true;
+    kzero_memory(state, sizeof(state));
+    state_ptr = state;
 }
 
-/**
- * @brief 
- * 
- */
-void event_shutdown() {
-    for (u16 i = 0; i < MAX_EVENT_CODE; ++i) {
-        if (state.registered[i].events != 0) {
-            darray_destroy(state.registered[i].events);
-            state.registered[i].events = 0;
+void event_system_shutdown(void* state) {
+    if (state_ptr) {
+        // Free the events arrays. And objects pointed to should be destroyed on their own.
+        for (u16 i = 0; i < MAX_MESSAGE_CODES; ++i) {
+            if (state_ptr->registered[i].events != 0) {
+                darray_destroy(state_ptr->registered[i].events);
+                state_ptr->registered[i].events = 0;
+            }
         }
     }
+    state_ptr = 0;
 }
 
-/**
- * @brief 
- * 
- * @param code 
- * @param listener 
- * @param on_event 
- * @return b8 
- */
 b8 event_register(u16 code, void* listener, PFN_on_event on_event) {
-    if (is_initialied == false) {
+    if (!state_ptr) {
         return false;
     }
 
-    if (state.registered[code].events == 0) {
-        state.registered[code].events = darray_create(registered_event);
+    if (state_ptr->registered[code].events == 0) {
+        state_ptr->registered[code].events = darray_create(registered_event);
     }
 
-    u64 registered_count = darray_length(state.registered[code].events);
+    u64 registered_count = darray_length(state_ptr->registered[code].events);
     for (u64 i = 0; i < registered_count; ++i) {
-        if (state.registered[code].events[i].listener == listener) {
+        if (state_ptr->registered[code].events[i].listener == listener) {
             // TODO: warn
             return false;
         }
     }
 
+    // If at this point, no duplicate was found. Proceed with registration.
     registered_event event;
-    event.listener  = listener;
+    event.listener = listener;
     event.callback = on_event;
-    darray_push(state.registered[code].events, event);
+    darray_push(state_ptr->registered[code].events, event);
 
     return true;
 }
 
-/**
- * @brief 
- * 
- * @param code 
- * @param listener 
- * @param on_event 
- * @return b8 
- */
 b8 event_unregister(u16 code, void* listener, PFN_on_event on_event) {
-    if (is_initialied == false) {
+    if (!state_ptr) {
         return false;
     }
 
-    if (state.registered[code].events == 0) {
+    // On nothing is registered for the code, boot out.
+    if (state_ptr->registered[code].events == 0) {
         // TODO: warn
         return false;
     }
 
-    u64 registered_count = darray_length(state.registered[code].events);
+    u64 registered_count = darray_length(state_ptr->registered[code].events);
     for (u64 i = 0; i < registered_count; ++i) {
-        registered_event e = state.registered[code].events[i];
+        registered_event e = state_ptr->registered[code].events[i];
         if (e.listener == listener && e.callback == on_event) {
+            // Found one, remove it
             registered_event popped_event;
-            darray_pop_at(state.registered[code].events, i, &popped_event);
+            darray_pop_at(state_ptr->registered[code].events, i, &popped_event);
             return true;
         }
     }
 
+    // Not found.
     return false;
 }
 
-
-/**
- * @brief 
- *  Fire Event, A return value of false does not mean it failed.
- * @param code 
- * @param sender 
- * @param context 
- * @return b8 
- */
 b8 event_fire(u16 code, void* sender, event_context context) {
-    if (is_initialied == false) {
+    if (!state_ptr) {
         return false;
     }
 
-    if (state.registered[code].events == 0) {
+    // If nothing is registered for the code, boot out.
+    if (state_ptr->registered[code].events == 0) {
         return false;
     }
 
-    u64 registered_count = darray_length(state.registered[code].events);
+    u64 registered_count = darray_length(state_ptr->registered[code].events);
     for (u64 i = 0; i < registered_count; ++i) {
-        registered_event e = state.registered[code].events[i];
+        registered_event e = state_ptr->registered[code].events[i];
         if (e.callback(code, sender, e.listener, context)) {
+            // Message has been handled, do not send to other listeners.
             return true;
         }
     }
 
+    // Not found.
     return false;
 }
